@@ -1,5 +1,5 @@
 import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateuserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
@@ -31,6 +31,7 @@ export class UsersController {
     }
 
     @ApiCreatedResponse({ type: User })
+    @ApiBadRequestResponse({description: 'Bad Request'})
     @Post()
     createUser(@Body() body: CreateuserDto): User {
         return this.usersService.createUser(body);
