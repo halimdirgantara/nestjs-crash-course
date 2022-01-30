@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateuserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
@@ -22,8 +22,8 @@ export class UsersController {
     @ApiNotFoundResponse({ description: 'User Not Found'})
     @Get(':id')
     // TO DO Auto Parse ID
-    getUserById(@Param('id') id: string): User { 
-        const user = this.usersService.findById(Number(id));
+    getUserById(@Param('id', ParseIntPipe) id: number): User { 
+        const user = this.usersService.findById(id);
         if(!user) {
             throw new NotFoundException();
         }
